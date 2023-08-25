@@ -1,6 +1,6 @@
 package com.socnet.service;
 
-import com.socialnetwork.app.repo.UserRepo;
+import com.socnet.repo.UserRepo;
 
 import java.sql.SQLException;
 
@@ -20,7 +20,7 @@ public class AuthService {
 
     public boolean checkAuth(String username, String password) throws SQLException {
         boolean result = false;
-        result = UserRepo.getInstance().checkAuth(username, password);
+        //result = UserRepo.getInstance().checkAuth(username, password);
         return result;
     }
 }

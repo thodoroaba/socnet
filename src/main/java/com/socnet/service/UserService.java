@@ -1,25 +1,20 @@
 package com.socnet.service;
 
-import com.socialnetwork.app.model.User;
-import com.socialnetwork.app.repo.UserRepo;
+import com.socnet.model.User;
+import com.socnet.repo.UserRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.util.List;
 
+@Service
 public class UserService {
-    private static UserService instance;
-
-
-    private UserService() { }
-
-    public static UserService getInstance() {
-        if(instance == null) {
-            instance = new UserService();
-        }
-        return instance;
-    }
+    @Autowired
+    UserRepo repo;
 
     public List<User> getAllUsers() throws SQLException {
-        return UserRepo.getInstance().getAllUsers();
+        repo.init();
+        return repo.getAllUsers();
     }
 }

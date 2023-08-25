@@ -1,15 +1,18 @@
 package com.socnet.repo;
 
 import com.socnet.model.User;
+import com.socnet.utils.AppConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Repository
 public class UserRepo {
-    private static UserRepo instance;
-    private static Connection connection;
+    private Connection connection;
 
     public static final String USER_USERNAME = "username";
     public static final String USER_ID = "id";
@@ -18,19 +21,16 @@ public class UserRepo {
     public static final String USER_REG_DATE = "registered_on";
     public static final String USER_PASSWORD = "password";
     public static final String TABLE_USER = "user";
-    private UserRepo(){
-    }
 
-    public static UserRepo getInstance() throws SQLException {
-        if(instance == null){
-            instance= new UserRepo();
-            connection = DriverManager.getConnection(
-                    PropertiesReader.getInstance().getDbURL(),
-                    PropertiesReader.getInstance().getDbName(),
-                    PropertiesReader.getInstance().getDbPass());
-        }
+    @Autowired
+    AppConfiguration config;
 
-        return instance;
+    public void init() throws SQLException {
+        connection = DriverManager.getConnection(
+                config.getDbUrl(),
+                config.getDbName(),
+                config.getDbPass()
+        );
     }
 
     public boolean checkAuth(String username, String password) throws SQLException {
