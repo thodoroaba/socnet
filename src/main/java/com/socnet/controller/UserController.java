@@ -4,6 +4,7 @@ import com.socnet.model.User;
 import com.socnet.service.UserService;
 import com.socnet.utils.AppConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,17 +21,19 @@ public class UserController {
     AppConfiguration config;
 
     @GetMapping(value = "/list")
-    public List<User> getAllUsers(){
+    public ResponseEntity<List<User>> getAllUsers(){
         System.out.println(config.getDbName());
         System.out.println(config.getDbPass());
         System.out.println(config.getDbUrl());
-        List<User> result = null;
+        List<User> userList = null;
         try {
-            result = userService.getAllUsers();
+            userList = userService.getAllUsers();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("error!!");
         }
-       return result;
+       return ResponseEntity
+               .ok()
+               .body(userList);
     }
 }
