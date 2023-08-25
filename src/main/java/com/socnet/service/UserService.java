@@ -17,4 +17,9 @@ public class UserService {
         repo.init();
         return repo.getAllUsers();
     }
+
+    public User getUserById(String userId) throws SQLException {
+        repo.init();
+        return repo.getUserById(userId);
+    }
 }

@@ -70,4 +70,24 @@ public class UserRepo {
         }
         return userList;
     }
+
+    public User getUserById(String userId) throws SQLException {
+        User user = null;
+        String query = String.format("SELECT * FROM %s WHERE %s = '%s';", TABLE_USER, USER_ID, userId);
+        PreparedStatement ps = connection.prepareStatement(query);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            user = User.builder()
+                    .username(rs.getString(USER_USERNAME))
+                    .id(rs.getString(USER_ID))
+                    .emailAddress(rs.getString(USER_EMAIL))
+                    .profilePic(rs.getString(USER_PIC))
+                    .registeredOn(new Date(rs.getLong(USER_REG_DATE)))
+                    .build()
+            ;
+
+        }
+        return user;
+    }
 }
